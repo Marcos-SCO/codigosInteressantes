@@ -13,7 +13,7 @@ body {
     height: 100%;
     display: flex;
     justify-content: center;
-    background: url('../img/aaron-burden-ob6O_xd67O0-unsplash-min.jpg') no-repeat fixed #22211fb0;
+    background: url('../img/aaron-burden-ob6O_xd67O0-unsplash-min.jpg') no-repeat fixed center #22211fb0;
     background-size: cover;
     background-blend-mode: overlay;
 }
@@ -25,7 +25,7 @@ body {
 }
 .inputBox {
     position: relative;
-    margin: auto;
+    margin: .5rem;
     width: 100%;
     max-width: 300px;
     text-align: center;
