@@ -1,11 +1,9 @@
 // Fatorial
-function fibonaci(n) {
-    let num1 = 0, num2 = 1;
-    for (let i = 0; i < n; i++) {
-        som = num1 + num2;
-        num1 = num2;
-        num2 = som;
-        console.log(som);
+function fat(n) {
+    let fatorial = n;
+    for (let i = 1; i < n; i++) {
+        fatorial *= i;
+        console.log(fatorial);
     }
 }
-fibonaci(5);
+fat(6);
