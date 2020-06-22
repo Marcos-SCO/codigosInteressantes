@@ -8,4 +8,4 @@ function fibonacci(n) {
         console.log(some);
     }
 }
-fibonaci(5);
+fibonacci(5);
