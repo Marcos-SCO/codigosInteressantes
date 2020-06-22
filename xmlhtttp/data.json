@@ -1,0 +1,18 @@
+{
+    "games": [{
+            "name": "Catherine",
+            "year": 2011,
+            "producer": "Atus"
+        },
+        {
+            "name": "Catherine Full Body",
+            "year": 2019,
+            "producer": "Atus"
+        },
+        {
+            "name": "Yu-Gi-oH! Nightmare troubaudour",
+            "year": 2005,
+            "producer": "Konami"
+        }
+    ]
+}
