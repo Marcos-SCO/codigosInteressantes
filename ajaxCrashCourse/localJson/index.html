@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax with local Json</title>
+</head>
+
+<body>
+    <button id="btn1">Get User</button>
+    <button id="btn2">Get Users</button>
+    <br><br>
+    <h1>User</h1>
+    <h1>User</h1>
+    <div id="user"></div>
+    <h1>Users</h1>
+    <div id="users"></div>
+    <script>
+        let btn1 = document.getElementById('btn1');
+        let btn2 = document.getElementById('btn2');
+
+        // user
+        btn1.addEventListener('click', loadUser);
+
+        function loadUser() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'user.json', true);
+
+            xhr.onload = () => {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    const user = JSON.parse(xhr.responseText);
+                    let output = `<ul><li>id: ${user.id} - Name: ${user.name} - Email: ${user.email}</li><ul>`;
+
+                    document.getElementById('user').innerHTML = output;
+                }
+            }
+            xhr.send();
+        }
+
+        // users
+        btn2.addEventListener('click', loadUsers);
+
+        function loadUsers() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'users.json', true);
+            xhr.onload = () => {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    const results = JSON.parse(xhr.responseText);
+
+                    let users = results.users.map((user) => {
+                        return `<li>Id: ${user.id} - Name: ${user.name} - Email: ${user.email}</li>`;
+                    }).join(' ');
+
+                    let usersElement = document.getElementById('users');
+                    let ul = document.createElement('ul');
+                    ul.innerHTML = users;
+                    usersElement.appendChild(ul);
+                }
+            }
+
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>
