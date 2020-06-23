@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX - Text file</title>
+</head>
+
+<body>
+    <button id="button">Get Text file</button>
+    <script>
+        let btn = document.getElementById('button');
+        btn.addEventListener('click', loadText);
+
+        function loadText() {
+            // XMLHttpRequest
+            let xhr = new XMLHttpRequest();
+            // OPEN - type, url/file, async
+            xhr.open('GET', 'simple.txt', true);
+
+            // onprogress - for loader
+            xhr.onprogress = () => {
+                console.log(`readystate: ${xhr.readyState}`)
+            }
+
+            // two ways to make a request onload | onreadystatechange
+
+            // onload
+            xhr.onload = () => {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                } else if (xhr.status === 404) {
+                    console.log('not found');
+                }
+            }
+
+            // on error
+            xhr.onerror = () => {
+                console.log('Request error...');
+            }
+
+            // onreadystatechange
+            // xhr.onreadystatechange = () => {
+            //     if (xhr.readyState === 4 && xhr.status == 200) {
+            //         console.log(xhr.responseText);
+            //     }
+            // }
+
+            // sends request
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>
