@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX with PHP Form</title>
+</head>
+
+<body>
+
+    <button id="btn">Get name</button>
+    <hr>
+    <h1>AJAX GET FORM</h1>
+    <form id="getForm" method="GET">
+        <input type="text" name="name" id="name">
+        <input type="submit" value="Submit">
+    </form>
+    <hr>
+    <h1>AJAX POST FORM</h1>
+    <form id="getForm2" method="POST">
+        <input type="text" name="name" id="name2">
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        let btn = document.getElementById('btn');
+        let form = document.getElementById('getForm');
+        let form2 = document.getElementById('getForm2');
+        btn.addEventListener('click', getName);
+
+        form.addEventListener('submit', getName);
+
+        function getName(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `process.php?name=${name}`, true);
+
+            xhr.onload = () => {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                }
+            }
+
+            xhr.send();
+        }
+
+        form2.addEventListener('submit', postName);
+
+        function postName(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name2').value;
+
+            const data = new FormData();
+            data.append('name', name);
+
+            const xhr = new XMLHttpRequest();
+            
+            xhr.open('POST', 'process.php', true);
+            
+            // sendind data with request header
+            /* xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            const data = `name=${name}`; 
+            xhr.send(data); */
+
+            xhr.onload = () => {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                }
+            }
+            xhr.send(data);
+        }
+    </script>
+</body>
+
+</html>
