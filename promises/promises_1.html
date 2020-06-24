@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+
+<body>
+
+    <script>
+        // promise
+        function jsrealized() {
+            return Promise.resolve('06407120');
+        }
+
+        function jsRejected() {
+            return Promise.reject();
+        }
+
+        jsrealized()
+            .then((data) => {
+                return fetch(`https://viacep.com.br/ws/${data}/json/`)
+            })
+            .then((data) => {
+                return data.json()
+            })
+            .then((endereco) => {
+                console.log(endereco)
+            }).catch(() => {
+                console.log('erro')
+            })
+
+        jsRejected().catch(() => {
+            console.log('Rejected');
+        })
+
+        function promiseEnhenced() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('Hello');
+                }, 1000);
+            })
+        }
+
+        promiseEnhenced().then((message) => {
+            console.log(message);
+        })
+
+        // fetch api
+        window.fetch('https://viacep.com.br/ws/06407120/json/')
+            .then((data) => {
+                return data.json()
+            })
+            .then((endereco) => console.log(endereco))
+    </script>
+</body>
+
+</html>

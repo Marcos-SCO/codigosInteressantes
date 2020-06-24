@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+
+<body>
+
+    <script>
+        // get cep
+        function getCep(cep) {
+            return fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        }
+
+        function extractAddress(data) {
+            return data.json();
+        }
+
+        function logAddress(data) {
+            console.log(data);
+        }
+
+        function getError(err) {
+            console.log('Aconteceu um erro...');
+        }
+
+        // Promises
+        getCep('06407120')
+            .then(extractAddress)
+            .then(logAddress)
+            .catch(getError)
+            .finally(() => {
+                console.log('Finally é sempre executado. Não importa se for resolvido ou rejeitado.');
+            })
+    </script>
+</body>
+
+</html>
