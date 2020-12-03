@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+html,
+body {
+    height: 100%
+}
+
+#container {
+    height: 100%
+}
+
+section {
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #000
+}
+
+section .slide {
+    /* position: relative; */
+    background-color: #0f0;
+    height: 100%;
+    flex: 1;
+    border-right: 2px solid #000;
+    overflow: hidden;
+    transition: .5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section .slide:last-child {
+    border-right: none
+}
+
+section .slide:hover {
+    flex-grow: 5
+}
+
+section .slide:nth-child(1) {
+    background: url(../img/laundry-413688_1920.jpg);
+    background-position: center center
+}
+
+section .slide:nth-child(2) {
+    background: url(../img/feet-1868670_1920.jpg);
+    background-position: center center
+}
+
+section .slide:nth-child(3) {
+    background: url(../img/laundry-saloon-567951_1920.jpg);
+    background-position: center center
+}
+
+section .slide:nth-child(4) {
+    background: url(../img/ironing-403074_1920.jpg);
+    background-position: center center
+}
+
+section .slide:nth-child(5) {
+    background: url(../img/people-2590564_1920.jpg);
+    background-position: center center
+}
+
+section .slide .content {
+    /* position: relative; */
+    bottom: 0;
+    margin: 40px;
+    padding: 30px;
+    background-color: #fff;
+    color: #111;
+    border: 1px solid #ccc;
+    visibility: hidden;
+    opacity: 0;
+    transition: .5s;
+    transform: translateY(100px)
+}
+
+section .slide:hover .content {
+    visibility: visible;
+    opacity: 1;
+    transition: .5s;
+    transition-delay: .5s;
+    transform: translateY(0)
+}
+
+@media (min-width:720px) {
+    section {
+        flex-direction: row
+    }
+}
