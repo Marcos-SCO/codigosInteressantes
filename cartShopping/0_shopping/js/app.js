@@ -35,8 +35,8 @@ function Products() {
 }
 
 // Display Products
-function UI() {
-    this.displayProducts = function displayProducts(product) {
+const UI = {
+    displayProducts(product) {
         let result = '';
         product.map(({ title, img, id, price }) => {
             result += `<article class="product">
@@ -52,9 +52,8 @@ function UI() {
         </article>`;
         });
         productsDOM.innerHTML = result;
-    }
-
-    this.getBagButtons = function getBagButtons() {
+    },
+    getBagButtons() {
         const buttons = [...document.querySelectorAll('.bag-btn')];
         buttonsDOM = buttons;
 
@@ -79,50 +78,19 @@ function UI() {
 
                 Storages.saveProducts({ id, img, title, price });
 
-                cartItems.innerText = Storages.setTotalCart()[1];
+                cartItems.innerText = UI.setTotalCart()[1];
 
 
                 // Search for product qty
-                let qty =  Storages.getProducts().find(item => item.id == id).qty;
+                let qty = Storages.getProducts().find(item => item.id == id).qty;
                 // Add to cart
-                Storages.addCartItem({id, img, title, price, qty });
-                Storages.showCart();
+                UI.addCartItem({ id, img, title, price, qty });
+                UI.showCart();
             })
 
         });
-    }
-}
-
-// Local Storage
-const Storages = {
-    saveProducts(product) {
-        let storageItems = this.getProducts();
-
-        if (storageItems) {
-            // find id add 1 if exists
-            if (storageItems.find(item => item.id == product.id)) {
-                storageItems.map(item => {
-                    if (item.id == product.id) {
-                        item.qty++;
-                    }
-                })
-            } else {
-                product.qty = 1;
-                storageItems.push(product);
-            }
-
-            cart = storageItems;
-        } else {
-            product.qty = 1;
-            cart.push(product);
-        }
-
-        localStorage.setItem('products', JSON.stringify(cart));
     },
-    getProducts() {
-        // Get items or empty array with products key
-        return localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')) : localStorage.setItem('products', []);
-    },
+
     setTotalCart() {
         let products = Storages.getProducts();
         let tempTotal = 0;
@@ -168,13 +136,46 @@ const Storages = {
     }
 }
 
+// Local Storage
+const Storages = {
+    saveProducts(product) {
+        let storageItems = this.getProducts();
+
+        if (storageItems) {
+            // find id add 1 if exists
+            if (storageItems.find(item => item.id == product.id)) {
+                storageItems.map(item => {
+                    if (item.id == product.id) {
+                        item.qty++;
+                    }
+                })
+            } else {
+                product.qty = 1;
+                storageItems.push(product);
+            }
+
+            cart = storageItems;
+        } else {
+            product.qty = 1;
+            cart.push(product);
+        }
+
+        localStorage.setItem('products', JSON.stringify(cart));
+    },
+    getProducts() {
+        // Get items or empty array with products key
+        return localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')) : localStorage.setItem('products', []);
+    },
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const ui = new UI;
+    const ui = Object.create(UI);
     const products = new Products;
     products.getProducts()
         .then(product => {
             ui.displayProducts(product);
-            cartItems.innerText = Storages.setTotalCart()[1];
+            cartItems.innerText = ui.setTotalCart()[1];
         })
         .then(() => {
             ui.getBagButtons();
