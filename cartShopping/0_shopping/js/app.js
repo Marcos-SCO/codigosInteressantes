@@ -66,12 +66,12 @@ function UI() {
                 let inCart = storageItems.find(item => item.id === id);
                 if (inCart) {
                     button.innerText = 'Add more';
-                    button.disabled = true;
+                    // button.disabled = true;
                 }
             }
             button.addEventListener('click', e => {
                 e.target.innerText = 'Add more';
-                e.target.disabled = true;
+                // e.target.disabled = true;
                 let product = e.target.parentNode.parentNode;
                 let img = product.children[0].children[0].src;
                 let title = product.children[1].innerText;
@@ -79,7 +79,14 @@ function UI() {
 
                 Storages.saveProducts({ id, img, title, price });
 
-                cartItems.innerText = Storages.setTotalCart();
+                cartItems.innerText = Storages.setTotalCart()[1];
+
+
+                // Search for product qty
+                let qty =  Storages.getProducts().find(item => item.id == id).qty;
+                // Add to cart
+                Storages.addCartItem({id, img, title, price, qty });
+                Storages.showCart();
             })
 
         });
@@ -118,9 +125,46 @@ const Storages = {
     },
     setTotalCart() {
         let products = Storages.getProducts();
-        
+        let tempTotal = 0;
+        let itemsTotal = 0;
+
         // return the quantity of products in cart
-        return (products ? Storages.getProducts().map(item => item.qty).reduce((acc, crr) => acc += crr, 0) : 0);
+        if (products) {
+            products.map(item => {
+                tempTotal += item.price.split('$')[1] * item.qty
+            });
+
+            itemsTotal = products.map(item => item.qty).reduce((acc, crr) => acc += crr, 0);
+
+            cartTotal.innerText = tempTotal;
+
+        }
+
+        return [tempTotal, itemsTotal];
+    },
+    addCartItem({ id, img, title, price, qty }) {
+        const div = document.createElement('div');
+        div.classList.add('cart-item');
+        div.innerHTML = `
+            <div class="cart-item">
+            <img src="${img}" alt="${title}">
+            <div>
+                <h4>${title}</h4>
+                <h5>$ ${price}</h5>
+                <span class="remove-item" data-id="${id}">remove</span>
+            </div>
+            <div>
+                <i class="fas fa-chevron-up" data-id="${id}"></i>
+                <p class="item-amount">${qty}</p>
+                <i class="fas fa-chevron-down" data-id="${id}"></i>
+            </div>
+            </div>`;
+
+        cartContent.appendChild(div);
+    },
+    showCart() {
+        cartOverlay.classList.add('transparentBcg');
+        cartDOM.classList.add('showCart');
     }
 }
 
@@ -130,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     products.getProducts()
         .then(product => {
             ui.displayProducts(product);
-            cartItems.innerText = Storages.setTotalCart();
+            cartItems.innerText = Storages.setTotalCart()[1];
         })
         .then(() => {
             ui.getBagButtons();
