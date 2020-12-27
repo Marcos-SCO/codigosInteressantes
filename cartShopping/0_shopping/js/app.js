@@ -66,12 +66,12 @@ function UI() {
                 let inCart = storageItems.find(item => item.id === id);
                 if (inCart) {
                     button.innerText = 'Add more';
-                    // button.disabled = true;
+                    button.disabled = true;
                 }
             }
             button.addEventListener('click', e => {
                 e.target.innerText = 'Add more';
-                // e.target.disabled = true;
+                e.target.disabled = true;
                 let product = e.target.parentNode.parentNode;
                 let img = product.children[0].children[0].src;
                 let title = product.children[1].innerText;
@@ -89,14 +89,11 @@ function UI() {
 // Local Storage
 const Storages = {
     saveProducts(product) {
-        let productsObj = [];
-
         let storageItems = this.getProducts();
 
         if (storageItems) {
-
-            let find = storageItems.find(item => item.id == product.id);
-            if (find) {
+            // find id add 1 if exists
+            if (storageItems.find(item => item.id == product.id)) {
                 storageItems.map(item => {
                     if (item.id == product.id) {
                         item.qty++;
@@ -107,28 +104,23 @@ const Storages = {
                 storageItems.push(product);
             }
 
-            productsObj = storageItems;
+            cart = storageItems;
         } else {
             product.qty = 1;
-            productsObj.push(product);
+            cart.push(product);
         }
 
-        localStorage.setItem('products', JSON.stringify(productsObj));
+        localStorage.setItem('products', JSON.stringify(cart));
     },
     getProducts() {
-        if (localStorage.getItem('products')) {
-            return JSON.parse(localStorage.getItem('products'));
-        } else {
-            return localStorage.setItem('products', []);
-        }
+        // Get items or empty array with products key
+        return localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')) : localStorage.setItem('products', []);
     },
     setTotalCart() {
         let products = Storages.getProducts();
-        if (products) {
-            return Storages.getProducts().map(item => item.qty).reduce((acc, crr) => acc += crr, 0);
-        } else {
-            return 0;
-        }
+        
+        // return the quantity of products in cart
+        return (products ? Storages.getProducts().map(item => item.qty).reduce((acc, crr) => acc += crr, 0) : 0);
     }
 }
 
