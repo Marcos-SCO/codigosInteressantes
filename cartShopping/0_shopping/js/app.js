@@ -182,6 +182,9 @@ const Storages = {
 document.addEventListener('DOMContentLoaded', () => {
     const ui = Object.create(UI);
     const products = new Products;
+
+    ui.setupApp();
+
     products.getCart()
         .then(product => {
             ui.displayProducts(product);
