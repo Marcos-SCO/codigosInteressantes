@@ -15,7 +15,7 @@ let buttonsDOM = [];
 
 // Getting products
 function Products() {
-    this.getProducts = async function getProducts() {
+    this.getCart = async function getCart() {
         try {
             let result = await fetch('./products.json');
             let data = await result.json();
@@ -48,7 +48,7 @@ const UI = {
                 </button>
             </div>
             <h3 class='title'>${title}</h3>
-            <h4 class='price'>$${price.toFixed(2)}</h4>
+            <h4>$ <span class='price'>${price.toFixed(2)}</span></h4>
         </article>`;
         });
         productsDOM.innerHTML = result;
@@ -60,7 +60,7 @@ const UI = {
         buttons.map(button => {
             let id = button.dataset.id;
 
-            let storageItems = Storages.getProducts();
+            let storageItems = Storages.getCart();
             if (storageItems) {
                 let inCart = storageItems.find(item => item.id === id);
                 if (inCart) {
@@ -74,15 +74,15 @@ const UI = {
                 let product = e.target.parentNode.parentNode;
                 let img = product.children[0].children[0].src;
                 let title = product.children[1].innerText;
-                let price = product.children[2].innerText;
+                let price = product.children[2].children[0].innerText;
 
                 Storages.saveProducts({ id, img, title, price });
 
-                cartItems.innerText = UI.setTotalCart()[1];
+                cartItems.innerText = parseFloat(UI.setTotalCart()[1].toFixed(2));
 
 
                 // Search for product qty
-                let qty = Storages.getProducts().find(item => item.id == id).qty;
+                let qty = Storages.getCart().find(item => item.id == id).qty;
                 // Add to cart
                 UI.addCartItem({ id, img, title, price, qty });
                 UI.showCart();
@@ -92,14 +92,14 @@ const UI = {
     },
 
     setTotalCart() {
-        let products = Storages.getProducts();
+        let products = Storages.getCart();
         let tempTotal = 0;
         let itemsTotal = 0;
 
         // return the quantity of products in cart
         if (products) {
             products.map(item => {
-                tempTotal += item.price.split('$')[1] * item.qty
+                tempTotal += item.price * item.qty
             });
 
             itemsTotal = products.map(item => item.qty).reduce((acc, crr) => acc += crr, 0);
@@ -118,7 +118,7 @@ const UI = {
             <img src="${img}" alt="${title}">
             <div>
                 <h4>${title}</h4>
-                <h5>$ ${price}</h5>
+                <h5>$ <span class='price'>${price}<span></h5>
                 <span class="remove-item" data-id="${id}">remove</span>
             </div>
             <div>
@@ -131,15 +131,25 @@ const UI = {
         cartContent.appendChild(div);
     },
     showCart() {
-        cartOverlay.classList.add('transparentBcg');
-        cartDOM.classList.add('showCart');
+        cartOverlay.classList.toggle('transparentBcg');
+        cartDOM.classList.toggle('showCart');
+    },
+    setupApp() {
+        let cart = Storages.getCart();
+        this.setTotalCart();
+        this.populateCart(cart);
+        cartBtn.addEventListener('click', this.showCart);
+        closeCartBtn.addEventListener('click', this.showCart);
+    },
+    populateCart(cart) {
+        cart.map(item => this.addCartItem(item))
     }
 }
 
 // Local Storage
 const Storages = {
     saveProducts(product) {
-        let storageItems = this.getProducts();
+        let storageItems = this.getCart();
 
         if (storageItems) {
             // find id add 1 if exists
@@ -162,7 +172,7 @@ const Storages = {
 
         localStorage.setItem('products', JSON.stringify(cart));
     },
-    getProducts() {
+    getCart() {
         // Get items or empty array with products key
         return localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')) : localStorage.setItem('products', []);
     },
@@ -172,7 +182,7 @@ const Storages = {
 document.addEventListener('DOMContentLoaded', () => {
     const ui = Object.create(UI);
     const products = new Products;
-    products.getProducts()
+    products.getCart()
         .then(product => {
             ui.displayProducts(product);
             cartItems.innerText = ui.setTotalCart()[1];
