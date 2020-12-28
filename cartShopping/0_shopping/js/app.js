@@ -85,7 +85,7 @@ const UI = {
                 let qty = Storages.getCart().find(item => item.id == id).qty;
                 // Add to cart
                 UI.addCartItem({ id, img, title, price, qty });
-                UI.showCart();
+                UI.toggleCartDisplay();
             })
 
         });
@@ -130,7 +130,7 @@ const UI = {
 
         cartContent.appendChild(div);
     },
-    showCart() {
+    toggleCartDisplay() {
         cartOverlay.classList.toggle('transparentBcg');
         cartDOM.classList.toggle('showCart');
     },
@@ -138,11 +138,36 @@ const UI = {
         let cart = Storages.getCart();
         this.setTotalCart();
         this.populateCart(cart);
-        cartBtn.addEventListener('click', this.showCart);
-        closeCartBtn.addEventListener('click', this.showCart);
+        cartBtn.addEventListener('click', this.toggleCartDisplay);
+        closeCartBtn.addEventListener('click', this.toggleCartDisplay);
     },
     populateCart(cart) {
         cart.map(item => this.addCartItem(item))
+    },
+    cartLogic() {
+        clearCartBtn.addEventListener('click', () => this.clearCart());
+    },
+    clearCart() {
+        let cartItemsId = Storages.getCart().map(item => item.id);
+        cartItemsId.map(id => this.removeCartItem(id));
+        
+        while (cartContent.children.length > 0) {
+           cartContent.removeChild(cartContent.children[0]);
+        }
+        cartItems.innerText = '0';
+
+        this.toggleCartDisplay();
+    },
+    removeCartItem(id) {
+        cart = Storages.getCart().filter(item => item.id !== id);
+        this.setTotalCart();
+        Storages.saveToStorage(cart);
+        let button = this.getSingleButton(id);
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-shopping-cart"></i>Add to bag';
+    },
+    getSingleButton(id) {
+        return buttonsDOM.find(button => button.dataset.id === id);
     }
 }
 
@@ -170,11 +195,15 @@ const Storages = {
             cart.push(product);
         }
 
-        localStorage.setItem('products', JSON.stringify(cart));
+        // Save to localStorage
+        this.saveToStorage(cart);
+    },
+    saveToStorage(obj) {
+        return localStorage.setItem('products', JSON.stringify(obj));
     },
     getCart() {
         // Get items or empty array with products key
-        return localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')) : localStorage.setItem('products', []);
+        return localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')) : [];
     },
 
 }
@@ -192,5 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(() => {
             ui.getBagButtons();
+            ui.cartLogic();
         });
 });
