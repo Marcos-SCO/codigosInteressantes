@@ -78,8 +78,7 @@ const UI = {
 
                 Storages.saveProducts({ id, img, title, price });
 
-                cartItems.innerText = parseFloat(UI.setTotalCart()[1].toFixed(2));
-
+                UI.setTotalCart();
 
                 // Search for product qty
                 let qty = Storages.getCart().find(item => item.id == id).qty;
@@ -105,10 +104,9 @@ const UI = {
             itemsTotal = products.map(item => item.qty).reduce((acc, crr) => acc += crr, 0);
 
             cartTotal.innerText = tempTotal;
+            cartItems.innerText = itemsTotal;
 
         }
-
-        return [tempTotal, itemsTotal];
     },
     addCartItem({ id, img, title, price, qty }) {
         const div = document.createElement('div');
@@ -146,15 +144,23 @@ const UI = {
     },
     cartLogic() {
         clearCartBtn.addEventListener('click', () => this.clearCart());
+
+        cartContent.addEventListener('click', e => {
+            if (e.target.classList.contais('remove-item')) {
+                let removeItem = e.target;
+
+            }
+        });
     },
     clearCart() {
         let cartItemsId = Storages.getCart().map(item => item.id);
         cartItemsId.map(id => this.removeCartItem(id));
-        
+
         while (cartContent.children.length > 0) {
-           cartContent.removeChild(cartContent.children[0]);
+            cartContent.removeChild(cartContent.children[0]);
         }
-        cartItems.innerText = '0';
+
+        this.setTotalCart();
 
         this.toggleCartDisplay();
     },
@@ -217,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     products.getCart()
         .then(product => {
             ui.displayProducts(product);
-            cartItems.innerText = ui.setTotalCart()[1];
+            ui.setTotalCart();
         })
         .then(() => {
             ui.getBagButtons();
