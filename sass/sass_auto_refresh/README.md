@@ -1,6 +1,7 @@
 # Sass
 
 - Dependencies
+globally
 
 - sass
   - npm i -g sass
