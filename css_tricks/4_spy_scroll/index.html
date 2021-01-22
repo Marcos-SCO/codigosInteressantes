@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spy scroll</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="menu">
+        <nav>
+            <a onclick="scrollToElement('#home');" class="home active">Home</a>
+            <a onclick="scrollToElement('#portfolio');" class="portfolio">Portfolio</a>
+            <a onclick="scrollToElement('#about');" class="about">About</a>
+            <a onclick="scrollToElement('#contact');"class="contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="section" id="home" data-section='home'></section>
+    <section class="section" id="portfolio" data-section='portfolio'></section>
+    <section class="section" id="about" data-section="about"></section>
+    <section class="section" id="contact" data-section="contact"></section>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
