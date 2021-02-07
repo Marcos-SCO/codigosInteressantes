@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navigation Menu | Change Background Image On List Item Hover</title>
+
+    <!-- Original code from: https://www.youtube.com/watch?v=NKk3iWt3MOM -->
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="navigation">
+        <nav class="nav-area">
+            <ul>
+                <li><a href="#" data-img="img1.jpg">Home</a></li>
+                <li><a href="#" data-img="img2.jpg">Sobre</a></li>
+                <li><a href="#" data-img="img3.jpg">Serviços</a></li>
+                <li><a href="#" data-img="img4.jpg">Portfolio</a></li>
+                <li><a href="#" data-img="img5.jpg">Time</a></li>
+                <li><a href="#" data-img="img6.jpg">Contato</a></li>
+            </ul>
+        </nav>
+        <figure class="img-area">
+            <picture class="img-picture">
+                <source srcset="img/img1.jpg" type="image/jpeg" id="source-set"> 
+                <img src="img/img1.jpg" id="img-slider">
+              </picture>
+        </figure>
+    </header>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
