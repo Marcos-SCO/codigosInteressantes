@@ -3,7 +3,7 @@ let navLinks = document.querySelectorAll('.nav-area ul li a');
 let menuToggle = document.querySelector('.menu-toggle');
 
 navLinks.forEach(link => {
-    link.addEventListener('click', e => {
+    link.addEventListener('mouseover', e => {
         changeImg('img/' + e.target.getAttribute('data-img'));
     });
 });
