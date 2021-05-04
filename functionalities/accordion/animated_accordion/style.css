@@ -1,0 +1,50 @@
+.accordion {
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.accordion__item {
+    margin-bottom: 5px;
+}
+
+.accordion__title {
+    background: gold;
+    padding: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.accordion__title::after {
+    font-family: "Font Awesome 5 Free";
+    content: "";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    width: 1em;
+    height: 1em;
+    transition: transform 0.3s ease-in;
+}
+
+.is-open .accordion__title::after {
+    transform: rotate(180deg);
+}
+
+.accordion__body {
+    border-radius: 5px;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+}
+
+.accordion__content {
+    background: #f4f4f4;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 5px;
+}
