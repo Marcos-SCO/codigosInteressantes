@@ -3,15 +3,21 @@ let cart = [];
 
 // Constructor function to create a product
 function createProduct(id, qtd, price) {
-    return {
-        id: id,
-        qtd: qtd,
-        price: price
-    }
+    this.id = id;
+    this.qtd = qtd;
+    this.price = price;
 }
-let ap = createProduct('a@p', 1, 2);
-let bp = createProduct('b@p', 1, 2);
-let bm = createProduct('b@m', 1, 3);
+/*
+Product obj
+let ap = {
+    id: "a@p",
+    qtd: 1,
+    price: 2
+};
+*/
+let ap = new createProduct('a@p', 1, 2);
+let bp = new createProduct('b@p', 1, 2);
+let bm = new createProduct('b@m', 1, 3);
 
 function addToCart(product) {
     // verifies if product is already in cart
