@@ -113,9 +113,8 @@ const UI = {
 
             itemsTotal = products.map(item => item.qty).reduce((acc, crr) => acc += crr, 0);
 
-            cartTotal.innerText = tempTotal;
+            cartTotal.innerText = tempTotal.toFixed(2);
             cartItems.innerText = itemsTotal;
-
         }
     },
     addCartItem({ id, img, title, price, qty }) {
