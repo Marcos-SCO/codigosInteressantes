@@ -94,9 +94,17 @@ const UI = {
 
         });
     },
+    updateSingleItemPrices(cartItemId, currItem) {
+        let priceDisplay = document.querySelector(`[data-cart-id='${cartItemId}'] .price-display`);
+        let priceElement = document.querySelector(`[data-cart-id='${cartItemId}'] .price`);
+        let priceQtd = document.querySelector(`[data-cart-id='${cartItemId}'] .price-qty`);
 
+        priceQtd.innerText = currItem.qty;
+        priceElement.innerText = this.multiplySingleItemPrice(currItem.price, currItem.qty)
+    },
     setTotalCart() {
         let products = Storages.getCart();
+        clearCartBtn.innerText = 'Clear Cart';
 
         // return the quantity of products in cart
         if (products) {
@@ -109,16 +117,19 @@ const UI = {
             cartTotal.innerText = tempTotal.toFixed(2);
             cartItems.innerText = itemsTotal;
         }
+
+        if (products.length === 0) clearCartBtn.innerText = 'Add to Cart';
     },
     addCartItem({ id, img, title, price, qty }) {
         const div = document.createElement('div');
         div.classList.add('cart-item');
         div.innerHTML = `
-            <div class="cart-item">
+            <div class="cart-item" data-cart-id="${id}">
             <img src="${img}" alt="${title}">
-            <div>
+            <div class='price-display'>
                 <h4>${title}</h4>
-                <h5>$ <span class='price'>${price}<span></h5>
+                <h5>$<span class='price'>${price}<span></h5>
+                <small>$${price} X <span class="price-qty">${qty}</span></small>
                 <span class="remove-item" data-id="${id}">remove</span>
             </div>
             <div>
@@ -141,9 +152,14 @@ const UI = {
         // Toggle the cart display
         [cartBtn, closeCartBtn, cartOverlay].forEach(item =>
             item.addEventListener('click', this.toggleCartDisplay));
+
+        cart.forEach(cartCurrItem => this.updateSingleItemPrices(cartCurrItem.id, cartCurrItem));
     },
     populateCart(cart) {
         cart.map(item => this.addCartItem(item))
+    },
+    multiplySingleItemPrice(price, multiplyTo) {
+        return (price * multiplyTo).toFixed(2);
     },
     cartLogic() {
         clearCartBtn.addEventListener('click', () => this.clearCart());
@@ -166,29 +182,36 @@ const UI = {
                 currUpItem.qty++;
 
                 Storages.saveToStorage(cart);
+
                 addAmount.nextElementSibling.innerText = currUpItem.qty;
+                this.updateSingleItemPrices(id, currUpItem);
             }
 
             if (e.target.classList.contains('fa-chevron-down')) {
                 cart = Storages.getCart();
+
                 let lowerAmount = e.target;
                 let id = lowerAmount.dataset.id;
                 let currDownItem = cart.find(item => item.id === id);
 
                 Storages.saveToStorage(cart);
-                let isQttBellowOne = currDownItem.qty < 1;
+                let isQtyGreaterThanZero = currDownItem.qty > 0;
 
-                if (isQttBellowOne) {
+                if (isQtyGreaterThanZero) {
+                    currDownItem.qty--;
+                    Storages.saveToStorage(cart);
+                    lowerAmount.previousElementSibling.innerText = currDownItem.qty;
+                    this.updateSingleItemPrices(id, currDownItem);
+                }
+
+                if (currDownItem.qty == 0) {
                     cartContent.removeChild(lowerAmount.parentElement.parentElement.parentElement);
                     this.removeCartItem(id);
                 }
 
-                if (!isQttBellowOne) {
-                    currDownItem.qty--;
-                    Storages.saveToStorage(cart);
-                    lowerAmount.previousElementSibling.innerText = currDownItem.qty;
-                }
             }
+
+            if (Storages.getCart() <= 0) this.clearCart();
 
             this.setTotalCart();
         });
