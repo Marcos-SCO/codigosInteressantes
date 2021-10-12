@@ -138,8 +138,9 @@ const UI = {
         let cart = Storages.getCart();
         this.setTotalCart();
         this.populateCart(cart);
-        cartBtn.addEventListener('click', this.toggleCartDisplay);
-        closeCartBtn.addEventListener('click', this.toggleCartDisplay);
+        // Toggle the cart display
+        [cartBtn, closeCartBtn, cartOverlay].forEach(item =>
+            item.addEventListener('click', this.toggleCartDisplay));
     },
     populateCart(cart) {
         cart.map(item => this.addCartItem(item))
