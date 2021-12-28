@@ -1,0 +1,52 @@
+html,
+body {
+  height: 100%
+}
+
+body {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap
+}
+
+.svg-wrapper {
+  position: relative;
+  width: 260px;
+  height: 50px;
+  margin: 0 auto;
+  cursor: pointer
+}
+
+.svg-btn-message {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  color: inherit;
+}
+
+.shape {
+  fill: transparent;
+  stroke-dasharray: 760;
+  stroke-dashoffset: 0;
+  stroke-width: 2px
+}
+
+.svg-wrapper:hover .shape {
+  animation: .5s strokeSvgAnimation linear forwards
+}
+
+@keyframes strokeSvgAnimation {
+  0% {
+    stroke-dasharray: 140 540;
+    stroke-dashoffset: -474;
+    stroke-width: 8px
+  }
+
+  100% {
+    stroke-dasharray: 760;
+    stroke-dashoffset: 0;
+    stroke-width: 2px
+  }
+}
