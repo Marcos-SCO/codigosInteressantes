@@ -1,0 +1,95 @@
+.typing {
+    position: relative;
+    margin-left: 10px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 1px;
+        height: 95%;
+        // border-right: 2px solid black;
+        right: -5px;
+        animation: blink 1s infinite ease;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.accordion {
+    max-width: 930px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+
+    button {
+        background-color: #111;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.57rem 1rem;
+    width: 100%;
+    color: #fff;
+    // background: #1f8dd6;
+    outline: none;
+    border: 1px solid;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    /* i {
+        align-self: center;
+        font-size: 1.35rem;
+        transition: all 0.3s ease-in-out;
+    } */
+
+    svg {
+        align-self: center;
+        font-size: 1.35rem;
+        transition: all 0.3s ease-in-out;
+        height: 17.5px;
+        margin: .2rem 0;
+
+        path {
+            fill: #fff;
+        }
+    }
+
+    &:hover {
+        opacity: .85;
+    }
+
+    &.active svg {
+        transform: rotate(180deg);
+    }
+}
+
+.accordion-body {
+    padding: 0 1rem;
+    margin: 0 0 1.15rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    border-radius: 0 0 5px 5px;
+
+    &.active {
+        background-color: #fafafa;
+        color: #111;
+        max-height: 10rem;
+        padding: 1rem;
+    }
+}
