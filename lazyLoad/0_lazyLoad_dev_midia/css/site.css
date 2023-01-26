@@ -1,0 +1,42 @@
+body{
+    margin: 0;
+    background-color: #eee;
+}
+
+article{
+	width: 80%;
+    margin: auto;
+    padding: 10px 30px;
+    text-align: justify;
+    line-height: 30px;
+    background-color: white;
+}
+
+section{
+	margin-bottom: 30px;
+}
+
+.lazy-img{
+    float: left;
+    height: 200px;
+    width: 300px;
+    margin: 10px 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.lazy-img.right{
+	float: right;
+}
+
+.lazy-img img{
+    opacity: 0;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.lazy-img img.loaded{
+	opacity: 1;
+	transition: opacity 1s;
+}

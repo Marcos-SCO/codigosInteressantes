@@ -1,2 +1,3 @@
-# codigosInteressantes
-Códigos interessantes | Navigate through the branchs
+# InterestingCodes | codigosInteressantes
+
+JS Codes
