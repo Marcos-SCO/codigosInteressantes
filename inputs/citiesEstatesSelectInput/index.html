@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select for states and cities</title>
+</head>
+
+<body>
+
+  <form action="" x-data="select()" x-init="getStates">
+    <select name="" id="states" @change="getCities" x-model="state">
+      <option value="">Escolha um estado</option>
+      <template x-for="state in states" :key="state.id">
+        <option x-bind:value="state.id" x-text="state.nome"></option>
+      </template>
+    </select>
+    <select name="" id="cities" x-ref="cities" @change="citySelected">
+      <option value="">Escolha uma cidade</option>
+      <template x-for="city in cities">
+        <option x-bind:value="city.id" x-text="city.nome"></option>
+      </template>
+    </select>
+
+    <button type="submit" id="btn_submit" x-ref="submit" disabled>Cadastrar</button>
+  </form>
+
+  <script src="./statesCitiesForm.js"></script>
+</body>
+
+</html>
