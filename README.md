@@ -1,2 +1,3 @@
-# codigosInteressantes
-Códigos interessantes | Navigate through the branchs
+# Prisma codes
+
+- ORM that can communicate with databases
