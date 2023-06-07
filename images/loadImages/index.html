@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Picsum https://picsum.photos/ -->
+
+  <!-- Tutorial link: https://www.youtube.com/watch?v=hJ7Rg1821Q0&ab_channel=WebDevSimplified -->
+
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+  <div class="img-container">
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-1');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-1" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-2');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-2" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-3');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-3" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-4');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-4" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-5');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-5" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-6');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-6" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-7');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-7" alt="img" width="auto" height="300px">
+    </div>
+
+    <div class="blur-load" style="background-image:url('https://picsum.photos/100?img-8');" data-js="blur-img">
+      <img loading="lazy" src="https://picsum.photos/300?img-8" alt="img" width="auto" height="300px">
+    </div>
+
+  </div>
+
+  <script>
+    const blurDivs =
+      document.querySelectorAll('[data-js="blur-img"]');
+
+    function loaded(div) {
+      div.classList.add('loaded');
+    }
+
+    blurDivs.forEach(blurDiv => {
+      const img = blurDiv.querySelector('img');
+
+      if (img.complete) {
+        loaded(blurDiv);
+
+        return;
+      }
+
+      img.addEventListener('load', () => loaded(blurDiv))
+
+    });
+
+  </script>
+
+</body>
+
+</html>
