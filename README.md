@@ -1,3 +1,3 @@
-# codigosInteressantes
+# InterestingCodes | codigosInteressantes
 
-Códigos JS
+JS Codes
