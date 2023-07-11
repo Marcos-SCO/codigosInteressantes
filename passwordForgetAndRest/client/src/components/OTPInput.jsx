@@ -12,6 +12,7 @@ export default function () {
 
   function resendOTP() {
     if (disable) return;
+
     axios
       .post("http://localhost:5000/send_recovery_email", {
         OTP: otp,
@@ -47,6 +48,7 @@ export default function () {
       });
     }, 1000); //each count lasts for a second
     //cleanup the interval on complete
+    
     return () => clearInterval(interval);
 
   }, [disable]);

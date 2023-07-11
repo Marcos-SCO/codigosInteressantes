@@ -1,15 +1,18 @@
 import axios from "axios";
 import React from "react";
+
 import { useContext } from "react";
 import { RecoveryContext } from "../App";
 
 export default function () {
-  const { setEmail, setPage, email, setOTP } = useContext(RecoveryContext);
+  const { setEmail, setPage, email, setOTP } =
+    useContext(RecoveryContext);
 
-  function nagigateToOtp() {
+  function navigateToOtp() {
     if (email) {
       const OTP = Math.floor(Math.random() * 9000 + 1000);
       console.log(OTP);
+      
       setOTP(OTP);
 
       axios
@@ -21,8 +24,10 @@ export default function () {
         .catch(console.log);
       return;
     }
+
     return alert("Please enter your email");
   }
+
   return (
     <div>
       <section className="h-screen">
@@ -133,7 +138,7 @@ export default function () {
                   </div>
                   <a
                     href="#"
-                    onClick={() => nagigateToOtp()}
+                    onClick={() => navigateToOtp()}
                     className="text-gray-800"
                   >
                     Forgot password?
